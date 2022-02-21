@@ -8,7 +8,8 @@
     "migrate": "knex migrate:latest",
     "seeds": "knex seeds:run",
     "rollback": "knex migrate:rollback",
-    "rollback --all": "knex migrate:rollback --all",
+    "rollbackall": "knex migrate:rollback --all",
+    "db": "knex migrate:list",
     "resetdb": "knex migrate:down",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"

@@ -8,5 +8,5 @@ server.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
-  console.log(`Server running on PORT ${PORT}`);
+  console.log(`|| Server Running || PORT=${PORT}`);
 });
