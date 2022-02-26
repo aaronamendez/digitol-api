@@ -19,7 +19,7 @@ module.exports = {
   development: {
     client: "sqlite3",
     connection: {
-      filename: "./src/data/test.db3",
+      filename: "./src/data/dev.db3",
     },
     ...sharedConfig,
     seeds: {
@@ -36,5 +36,10 @@ module.exports = {
       // password: "password",
     },
     ...sharedConfig,
+  },
+
+  testing: {
+    ...sharedConfig,
+    connection: { filename: "./data/test.db3" },
   },
 };

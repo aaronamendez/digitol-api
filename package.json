@@ -11,7 +11,7 @@
     "rollbackall": "knex migrate:rollback --all",
     "db": "knex migrate:list",
     "resetdb": "knex migrate:down",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --silent --passWithNoTests",
     "prepare": "husky install"
   },
   "keywords": [],

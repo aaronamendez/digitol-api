@@ -1,10 +1,12 @@
-import express, { Application } from "express";
 import dotenv from "dotenv";
-import userRoutes from "./routes/userRoutes";
-const server = express();
 dotenv.config();
+import express, { Application } from "express";
+import userRouter from "./routes/userRoutes";
+import authRouter from "./routes/userRoutes";
+const server: Application = express();
 
-server.use("/api/users", userRoutes);
+server.use("/api/users", userRouter);
+server.use("/api/users", authRouter);
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
