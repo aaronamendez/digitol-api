@@ -3,37 +3,46 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
+  // WIZARD_USERS
   return (
     knex.schema
-      // USERS
-      .createTable("users", (tbl) => {
-        tbl.increments("user_id");
+      .createTable("wizard_users", (tbl) => {
+        tbl.increments("wizard_id");
         tbl.string("first_name", 60).notNullable();
         tbl.string("last_name", 60).notNullable();
         tbl.string("email", 60).notNullable();
-        tbl.boolean("admin").defaultTo(0);
+        tbl.string("password", 128).notNullable();
+        tbl.boolean("is_wizard").defaultTo(true);
+        tbl.boolean("account_active").defaultTo(false);
       })
-      // ROLES
-      .createTable("roles", (tbl) => {
-        tbl.increments("role_id");
-        tbl.string("role_name", 60).notNullable();
-      })
-      // FOREIGN KEYS
-      .createTable("user_roles", (tbl) => {
-        tbl.increments("user_roles_id");
+      // ORGANIZATIONS
+      .createTable("organizations", (tbl) => {
+        tbl.increments("org_id");
+        tbl.string("org_name", 60);
         tbl
-          .integer("user_id")
+          .integer("wizard_id")
           .unsigned()
-          .references("user_id")
-          .inTable("users")
+          .notNullable()
+          .references("wizard_id")
+          .inTable("wizard_users")
+          .onDelete("CASCADE")
+          .onUpdate("CASCADE");
+      })
+      // WIZARDS AND ORGS TABLE FOREIGN_KEYS
+      .createTable("wizards_orgs", (tbl) => {
+        tbl
+          .integer("wizard_id")
+          .unsigned()
+          .references("wizard_id")
+          .inTable("wizard_users")
           .onDelete("CASCADE")
           .onUpdate("CASCADE")
           .notNullable();
         tbl
-          .integer("role_id")
+          .integer("org_id")
           .unsigned()
-          .references("role_id")
-          .inTable("roles")
+          .references("org_id")
+          .inTable("organizations")
           .onDelete("CASCADE")
           .onUpdate("CASCADE")
           .notNullable();
@@ -46,8 +55,11 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema
-    .dropTableIfExists("user_roles")
-    .dropTableIfExists("users")
-    .dropTableIfExists("roles");
+  return (
+    knex.schema
+      // ALWAYS ADD THIS IN REVERSE
+      .dropTableIfExists("wizards_orgs")
+      .dropTableIfExists("organizations")
+      .dropTableIfExists("wizard_users")
+  );
 };
