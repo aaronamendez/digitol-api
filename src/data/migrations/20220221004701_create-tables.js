@@ -11,7 +11,7 @@ exports.up = function (knex) {
         tbl.string("first_name", 60).notNullable();
         tbl.string("last_name", 60).notNullable();
         tbl.string("email", 60).notNullable();
-        tbl.boolean("admin").defaultTo(false);
+        tbl.boolean("admin").defaultTo(0);
       })
       // ROLES
       .createTable("roles", (tbl) => {
