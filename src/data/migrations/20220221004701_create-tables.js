@@ -6,7 +6,7 @@ exports.up = function (knex) {
   // WIZARD_USERS
   return (
     knex.schema
-      .createTable("wizard_users", (tbl) => {
+      .createTable("wizards", (tbl) => {
         tbl.increments("wizard_id");
         tbl.string("first_name", 60).notNullable();
         tbl.string("last_name", 60).notNullable();
@@ -18,13 +18,13 @@ exports.up = function (knex) {
       // ORGANIZATIONS
       .createTable("organizations", (tbl) => {
         tbl.increments("org_id");
-        tbl.string("org_name", 60);
+        tbl.string("org_name", 60).notNullable();
         tbl
           .integer("wizard_id")
           .unsigned()
           .notNullable()
           .references("wizard_id")
-          .inTable("wizard_users")
+          .inTable("wizards")
           .onDelete("CASCADE")
           .onUpdate("CASCADE");
       })
@@ -34,7 +34,7 @@ exports.up = function (knex) {
           .integer("wizard_id")
           .unsigned()
           .references("wizard_id")
-          .inTable("wizard_users")
+          .inTable("wizards")
           .onDelete("CASCADE")
           .onUpdate("CASCADE")
           .notNullable();
@@ -60,6 +60,6 @@ exports.down = function (knex) {
       // ALWAYS ADD THIS IN REVERSE
       .dropTableIfExists("wizards_orgs")
       .dropTableIfExists("organizations")
-      .dropTableIfExists("wizard_users")
+      .dropTableIfExists("wizards")
   );
 };
