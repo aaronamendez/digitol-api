@@ -28,25 +28,6 @@ exports.up = function (knex) {
           .onDelete("CASCADE")
           .onUpdate("CASCADE");
       })
-      // WIZARDS AND ORGS TABLE FOREIGN_KEYS
-      .createTable("wizards_orgs", (tbl) => {
-        tbl
-          .integer("wizard_id")
-          .unsigned()
-          .references("wizard_id")
-          .inTable("wizards")
-          .onDelete("CASCADE")
-          .onUpdate("CASCADE")
-          .notNullable();
-        tbl
-          .integer("org_id")
-          .unsigned()
-          .references("org_id")
-          .inTable("organizations")
-          .onDelete("CASCADE")
-          .onUpdate("CASCADE")
-          .notNullable();
-      })
   );
 };
 
@@ -58,7 +39,6 @@ exports.down = function (knex) {
   return (
     knex.schema
       // ALWAYS ADD THIS IN REVERSE
-      .dropTableIfExists("wizards_orgs")
       .dropTableIfExists("organizations")
       .dropTableIfExists("wizards")
   );
